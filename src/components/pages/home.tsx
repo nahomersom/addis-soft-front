@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from '@emotion/styled'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { Link } from "react-router-dom";
@@ -102,6 +102,7 @@ const addSongs = () =>{
      <StyledLink to="/song">
 
         <SharedButton
+        
         onClick={addSongs}
     label="Add New Song"
 
