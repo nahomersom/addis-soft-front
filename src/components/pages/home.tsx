@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from "react";
 import { SongResponse } from "../../model/songsResponse";
-import { getSongsFetch, removeSong } from "../../redux/data/SongSlice";
+import { getSongs, removeSong } from "../../redux/data/SongSlice";
 import { RootState } from "../../redux/store/store";
 import SharedButton from "../shared/button";
+import { DELETE_SONG_BY_ID, GET_SONGS } from '../../redux/types/reduxTypes';
 
 const TableContent = styled.div`
 display:flex;
@@ -79,14 +80,14 @@ const TableHeader =  styled(TableContent)`
 function Home(){
     const dispatch = useDispatch();
      useEffect(()=>{
-        dispatch(getSongsFetch());
-     },[])
+        dispatch({type:GET_SONGS,getSongs});
+     },[dispatch])
 
     const handleRemoveSong = (id:string) =>{
     
-        dispatch(removeSong({id:id}))
+        dispatch({type:DELETE_SONG_BY_ID,payload:{id:id}})
     }
-  const songs = useSelector((state:RootState) => state.songs.songs.data);
+  const songs = useSelector((state:RootState) => state.songs.songs);
 
  
 const addSongs = () =>{

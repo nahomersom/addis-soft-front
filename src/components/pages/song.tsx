@@ -5,9 +5,9 @@ import styled from "styled-components";
 import SharedButton from "../shared/button";
 
 import { SongResponse } from "../../model/songsResponse";
-import {  addSongPending, patchSongPending } from "../../redux/data/SongSlice";
 import TextField from "../shared/TextField";
 import { RootState } from "../../redux/store/store";
+import { CREATE_SONG, UPDATE_SONG_BY_ID } from "../../redux/types/reduxTypes";
 const Container = styled.div`
 display:flex;
 justify-content:center;
@@ -40,7 +40,7 @@ const initialValue = {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
-    const songs = useSelector((state: RootState) => state.songs.songs.data);
+    const songs = useSelector((state: RootState) => state.songs.songs);
     const existingSongs = songs.filter(song => song._id === params.id);
     const [values,setValues] = useState<SongResponse>(
          existingSongs[0] ?? initialValue
@@ -53,23 +53,31 @@ const initialValue = {
 
     const handleFormSubmit= () =>{
         if(params.id && existingSongs){
-            dispatch(patchSongPending({
-                _id:params.id,
-                title:values.title,
-                artist:values.artist,
-                genre:values.genre,
-                album:values.album
+            dispatch({
+                type:UPDATE_SONG_BY_ID,
+                payload:{
+
+                    _id:params.id,
+                    title:values.title,
+                    artist:values.artist,
+                    genre:values.genre,
+                    album:values.album
+                }
     
-            }))
+            })
         }else{
 
-            dispatch(addSongPending({
+            dispatch(              
+                {
+             type:CREATE_SONG,
+              payload:{
                 title:values.title,
                 artist:values.artist,
                 genre:values.genre,
                 album:values.album
+              } 
     
-            }))
+            })
         }
         setValues(initialValue);
        

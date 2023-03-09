@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { SongResponse } from "../../model/songsResponse";
 
 type SongState = {
-    data: SongResponse[]; 
+    songs: SongResponse[]; 
     error: null | string;
     isPending: boolean;
 
   };
   
   const initialState: SongState = {
-    data: [],
+    songs: [],
     error: null,
     isPending: false,
   };
@@ -17,50 +17,31 @@ type SongState = {
  const songSlice = createSlice({
    name:'songs',
    
-   initialState:{
-    songs:initialState,
-    error: null,
-    isPending: false,
-    success:true
-   },
+   initialState:initialState,
    reducers:{
-getSongsFetch:(state)=>{
-        state.isPending = true;
-    },
-getSongsSuccess:(state,action)=>{
-        state.songs.data = action.payload;
+getSongs:(state,action)=>{
+        state.songs = action.payload;
         state.isPending = false;
    },
-  getSongsFailure:(state)=>{
-         state.isPending = false;
+addSong:(state,action)=>{
+    
+       state.songs.push(action.payload);
    },
-  addSong:(state,action)=>{
-       state.success = true;
-       console.log('action',action.payload);
-       state.songs.data.push(action.payload);
-   },
-    addSongPending:(state,action)=>{
-    state.isPending = true;
-},
-patchSongPending:(state,action)=>{
-  state.isPending = true;
-},
- patchSong:(state,action)=>{
-    state.success = true;
+getSongById:(state,action)=>{
+  
     let id = action.payload._id;
-    state.songs.data = state.songs.data.map(i => i._id == id ? action.payload : i)
+    state.songs = state.songs.map(i => i._id == id ? action.payload : i)
     return state
 },
 removeSong:(state,action)=>{
-  state.success = true;
-  let id = action.payload.id;
-  state.songs.data = state.songs.data.filter(i => i._id !== id)
+  let id = action.payload;
+  console.log('payl',action.payload)
+  state.songs = state.songs.filter(i => i._id !== id)
+  console.log('deleatle',state.songs)
   return state
 }
 
 }
 });
-export const {getSongsFetch,
-  addSongPending,
-  getSongsSuccess,getSongsFailure,addSong,patchSong,removeSong,patchSongPending} = songSlice.actions;
+export const {addSong,getSongs,getSongById,removeSong} = songSlice.actions;
 export default songSlice.reducer;
