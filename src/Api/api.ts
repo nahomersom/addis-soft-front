@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SongResponse } from "../model/songsResponse";
-const baseUrl = 'http://localhost:8000/api/songs/'
+
+const baseUrl = 'https://music-api-dcqp.onrender.com/api/songs/'
 
 export const fetchSongsApi = async () => axios.get(`${baseUrl}getAll`);
 
